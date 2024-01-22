@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
+ * {
+    /* background-color: #e6bcff; */
+    margin: 0;
+    padding: 0;
+    
+ }
+
+ body {
+    background-image: url("images/dddepth-321.jpg");
+    background-size: cover;
+ }
+
+ nav {
+    min-height: 75px;
+    width: 100%;
+    background-color: #1d002e;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+
+    
+    
+ }
+
+ .navi {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin: 0 20px;
+    list-style: none;
+
+    color: white;
+    background-color: inherit;
+    
+ }
+
+ a {
+    background-color: #1d002e;
+    text-decoration: none;
+    
+}
+
+a:hover {
+    text-decoration: none;
+    color: #d182ff;
+}
+
+.frame {
+    /* background-color: #d182ff; */
+    /* height: 100vh; */
+
+    display: flex;
+    justify-content: center;
+
+
+}
+
+.calc-box {
+    
+    margin-top: 30px;;
+    height: 80vh;
+    width: 30vw;
+
+    border: solid 4px black;
+    border-radius: 6px;
+}
+
+
+
+.calc-top {
+    height: 20vh;
+    width: 30vw;
+    background-color: #af9bbb;
+
+    display:flex;
+    justify-content: flex-end;
+    align-items: center;
+    text-overflow: hidden;
+    
+}
+
+.calc-bottom {
+    height: 60vh;
+    width: 30vw;
+    background-color: #230037;
+}
+
+.num-disp {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 2rem;
+    margin-right: 10px;
+
+    /* overflow-x: scroll; */
+    
+}
+
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 600px) {
+
+    .calc-box {
+        margin-top: 30px;;
+        height: 80vh;
+        width: 70vw;
+    
+        border-radius: 6px;
+    }
+
+    .calc-top {
+        height: 20vh;
+        width: 70vw;
+
+    }
+
+    .calc-bottom {
+        height: 60vh;
+        width: 70vw;
+    }
+}
+
