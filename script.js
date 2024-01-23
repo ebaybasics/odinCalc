@@ -121,7 +121,7 @@ const init = () => {
             const screenClear = () => disp.textContent === ''? true : false;
             // Is there a operator?
             const operatorCheck = () => {
-                if (disp.textContent == '/' || disp.textContent == 'X' || disp.textContent == '-' || disp.textContent == '+') {return true}
+                if (operationsObj.hasOwnProperty(`${disp.textContent}`)) {return true}
                 return false; 
             };
             // Is currentbutton '='
@@ -162,9 +162,10 @@ const init = () => {
             // Decimal Operator
             if ((screenClear() || operatorCheck() || isNumber(disp.textContent) && !disp.textContent.includes('.')) && currentButton.textContent == '.') {
                 if (isNumber(disp.textContent) && !screenClear()) disp.textContent += '.';
-                if (screenClear()) disp.textContent = '0.';
-                
-                if (isOperator(disp.textContent)) {
+                if (screenClear()) disp.textContent = '0.'; 
+                console.log(isOperator(disp.textContent)) 
+                console.log(disp.textContent)            
+                if (operatorCheck(disp.textContent)) {
                     cls()
                     disp.textContent = '0.';
                 }    
