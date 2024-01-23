@@ -1,10 +1,12 @@
 const buttonContainer = document.querySelector('.calc-bottom');
+const dispContainer = document.querySelector('.calc-top')
 const numDisp = document.querySelector('.num-disp');
+const frame = document.querySelector('.frame');
 
 let buttonIdIndex = 0;
 const buttonIdentities = [
     {'text': 'C', 'id': 'button-clear'},
-    {'text': '()', 'id': 'button-parenthesis'},
+    {'text': 'DEL', 'id': 'button-del'},
     {'text': '%', 'id': 'button-percentage'},
     {'text': '/', 'id': 'button-division'},
     {'text': '7', 'id': 'button-7'},
@@ -32,6 +34,7 @@ const operationsObj = {
     'X' : function (num1,num2) {return num1*num2},
     '-' : function (num1,num2) {return num1 - num2},
     '+' : function (num1,num2) {return num1 + num2},
+    '+/-' : function (num) {return -1*num},
 }
 
 
@@ -75,6 +78,17 @@ const init = () => {
 
     const calcButtons = document.querySelectorAll('.calc-button');
     const disp = document.querySelector('.num-disp');
+    const colorIcon = document.querySelector('#button-parenthesis');
+
+    const hackerDisp = () => {
+        disp.textContent = '--  **||ACCESS GRANTED||**  --'
+        buttonContainer.style.backgroundColor = '#056d63';
+        dispContainer.style.backgroundColor = '#0e6b0e';
+        calcButtons.forEach((button) => {
+            button.style.backgroundColor = '#2b5329'
+        });
+        frame.style.backgroundColor = 'black'
+    }
 
     // Clear Screen
     const cls = (complete=0, display=1) => {
@@ -98,7 +112,7 @@ const init = () => {
             
             let currentButton = document.querySelector(`#${buttonIdentities.find((button) =>      button.id==e.target.id).id}`)
 
-            console.log(currentButton.textContent)
+
 
             // Check if number:
             const isNumber = (testNum) => (Number(testNum)-9999999999) ?  true : false;
@@ -122,8 +136,8 @@ const init = () => {
             if (currentButton.textContent == 'C') {cls(1); console.log(num1)} 
             if (isNumber(currentButton.textContent) && isNumber(disp.textContent) &&!screenClear()) disp.textContent += currentButton.textContent;
             if (screenClear() && isNumber(currentButton.textContent)) disp.textContent += currentButton.textContent;
-
-            if (!operatorCheck() && isOperator() && isNumber(disp.textContent) && !isNumber(num1)) {
+            // Add operator to display
+            if (!operatorCheck() && isOperator() && (isNumber(disp.textContent)||disp.textContent.includes(')')) && !isNumber(num1) && !screenClear()) {
                 num1 = disp.textContent;
                 operation = currentButton.textContent;
                 cls();
@@ -139,13 +153,27 @@ const init = () => {
                 num2 = disp.textContent;
                 cls();
                 total = operationsObj[`${operation}`](Number(num1),Number(num2))*1000000000000/1000000000000;
-
-                disp.textContent = total;
+                total == 'Infinity' ? hackerDisp(): disp.textContent = total;
                 cls(1,0);
+                if (total == 'Infinity') console.log('')
 
+            };
+            // Decimal Operator
+            if ((screenClear() || operatorCheck() || isNumber(disp.textContent)) && currentButton.textContent == '.') {
+                if (screenClear()) disp.textContent = '0.';
+                if (isNumber(disp.textContent)) disp.textContent += '.';
+                if (isOperator(disp.textContent)) {
+                    cls()
+                    disp.textContent = '0.';
+                }               
+            };
+            // +/- operator or %
+            if (isNumber(disp.textContent) && (currentButton.textContent == '+/-' || currentButton.textContent == '%')) {
+                disp.textContent = operationsObj[currentButton.textContent](disp.textContent);
             }
 
-            
+            // DEL operator
+            if (isNumber(disp.textContent) && currentButton.textContent == 'DEL') disp.textContent = disp.textContent.slice(0,-1);           
         })
     })
 
