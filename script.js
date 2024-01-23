@@ -161,12 +161,15 @@ const init = () => {
             };
             // Decimal Operator
             if ((screenClear() || operatorCheck() || isNumber(disp.textContent) && !disp.textContent.includes('.')) && currentButton.textContent == '.') {
+                if (isNumber(disp.textContent) && !screenClear()) disp.textContent += '.';
                 if (screenClear()) disp.textContent = '0.';
-                else if (isNumber(disp.textContent)) disp.textContent += '.';
+                
                 if (isOperator(disp.textContent)) {
                     cls()
                     disp.textContent = '0.';
-                }               
+                }    
+                
+                
             };
             // +/- operator or %
             if (isNumber(disp.textContent) && (currentButton.textContent == '+/-' || currentButton.textContent == '%')) {
