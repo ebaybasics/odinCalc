@@ -29,7 +29,7 @@ const operationsObj = {
     '()': '',
     '%' : function (num1) {return num1/100},
     '/' : function (num1,num2) {return num1/num2},
-    'X' : function (num1,num2) {return num1/num2},
+    'X' : function (num1,num2) {return num1*num2},
     '-' : function (num1,num2) {return num1 - num2},
     '+' : function (num1,num2) {return num1 + num2},
 }
@@ -138,7 +138,7 @@ const init = () => {
             if (!operatorCheck() && !(num1 === 'empty') && equals()) {
                 num2 = disp.textContent;
                 cls();
-                total = Math.round(operationsObj[`${operation}`](Number(num1),Number(num2))*1000000000000)/1000000000000;
+                total = operationsObj[`${operation}`](Number(num1),Number(num2))*1000000000000/1000000000000;
 
                 disp.textContent = total;
                 cls(1,0);
