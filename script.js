@@ -162,7 +162,7 @@ const init = () => {
             // Decimal Operator
             if ((screenClear() || operatorCheck() || isNumber(disp.textContent) && !disp.textContent.includes('.')) && currentButton.textContent == '.') {
                 if (screenClear()) disp.textContent = '0.';
-                if (isNumber(disp.textContent)) disp.textContent += '.';
+                else if (isNumber(disp.textContent)) disp.textContent += '.';
                 if (isOperator(disp.textContent)) {
                     cls()
                     disp.textContent = '0.';
