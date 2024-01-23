@@ -88,6 +88,7 @@ const init = () => {
             button.style.backgroundColor = '#2b5329'
         });
         frame.style.backgroundColor = 'black'
+        frame.style.height = '100vw';
     }
 
     // Clear Screen
