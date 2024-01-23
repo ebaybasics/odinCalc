@@ -1,7 +1,29 @@
 const buttonContainer = document.querySelector('.calc-bottom');
 const numDisp = document.querySelector('.num-disp');
 
-
+let buttonIdIndex = 0;
+const buttonIdentities = [
+    {'text': 'C', 'id': 'button-clear'},
+    {'text': '()', 'id': 'button-parenthesis'},
+    {'text': '%', 'id': 'button-percentage'},
+    {'text': '/', 'id': 'button-division'},
+    {'text': '7', 'id': 'button-7'},
+    {'text': '8', 'id': 'button-8'},
+    {'text': '9', 'id': 'button-9'},
+    {'text': 'X', 'id': 'button-multiply'},
+    {'text': '4', 'id': 'button-4'},
+    {'text': '5', 'id': 'button-5'},
+    {'text': '6', 'id': 'button-6'},
+    {'text': '-', 'id': 'button-minus'},
+    {'text': '1', 'id': 'button-1'},
+    {'text': '2', 'id': 'button-2'},
+    {'text': '3', 'id': 'button-3'},
+    {'text': '+', 'id': 'button-plus'},
+    {'text': '+/-', 'id': 'button-change-sign'},
+    {'text': '0', 'id': 'button-0'},
+    {'text': '.', 'id': 'button-decimal'},
+    {'text': '=', 'id': 'button-equal'}
+]
 
 
 
@@ -24,7 +46,10 @@ const buttonGen = (buttonCount, classType='calc-button') => {
             // Special Case for styling last column:
             if (i == buttonCount-1) newButton.classList.add('calc-button-last-col');
             newButton.classList.add(classType);
-            newButton.textContent = '='
+
+            
+            newButton.textContent = buttonIdentities[buttonIdIndex].text;
+            buttonIdIndex ++;
             buttonRow.appendChild(newButton);
             console.log(buttonRow)
             
@@ -34,5 +59,19 @@ const buttonGen = (buttonCount, classType='calc-button') => {
 
 };
 
-rowGen(5);
-buttonGen(4);
+const init = () => {
+    rowGen(5);
+    buttonGen(4);
+
+    const calcButtons = document.querySelectorAll('.calc-button');
+
+    calcButtons.forEach((button) => {
+        button.addEventListener('click', e => {
+            e.preventDefault()
+            console.log(e)
+            console.log(e.target)
+        })
+    })
+}
+
+init();
