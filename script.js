@@ -45,10 +45,9 @@ const buttonGen = (buttonCount, classType='calc-button') => {
             if (row == 0) newButton.classList.add('calc-button-top-row');
             // Special Case for styling last column:
             if (i == buttonCount-1) newButton.classList.add('calc-button-last-col');
-            newButton.classList.add(classType);
-
-            
+            newButton.classList.add(classType);           
             newButton.textContent = buttonIdentities[buttonIdIndex].text;
+            newButton.id = buttonIdentities[buttonIdIndex].id;
             buttonIdIndex ++;
             buttonRow.appendChild(newButton);
             console.log(buttonRow)
@@ -64,14 +63,34 @@ const init = () => {
     buttonGen(4);
 
     const calcButtons = document.querySelectorAll('.calc-button');
+    const disp = document.querySelector('.num-disp');
 
     calcButtons.forEach((button) => {
-        button.addEventListener('click', e => {
-            e.preventDefault()
-            console.log(e)
-            console.log(e.target)
+        button.addEventListener('click', (e) => {
+            let currentButton = document.querySelector(`#${buttonIdentities.find((button) =>      button.id==e.target.id).id}`)
+            console.log(currentButton.textContent)
+
+
         })
     })
+
+
+    disp.textContent = '';
+
+    // seven.addEventListener('click', e => {
+    //     e.preventDefault();
+    //     disp.textContent += '7'
+    // })
+
+
+
+    // calcButtons.forEach((button) => {
+    //     button.addEventListener('click', e => {
+    //         e.preventDefault()
+    //         console.log(e)
+    //         console.log(e.target)
+    //     })
+    // })
 }
 
 init();
