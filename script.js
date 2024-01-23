@@ -25,6 +25,15 @@ const buttonIdentities = [
     {'text': '=', 'id': 'button-equal'}
 ]
 
+const operationsObj = {
+    '()': '',
+    '%' : function (num1) {return num1/100},
+    '/' : function (num1,num2) {return num1/num2},
+    'X' : function (num1,num2) {return num1/num2},
+    '-' : function (num1,num2) {return num1 - num2},
+    '+' : function (num1,num2) {return num1 + num2},
+}
+
 
 
 const rowGen = (rowCount) => {
@@ -49,9 +58,7 @@ const buttonGen = (buttonCount, classType='calc-button') => {
             newButton.textContent = buttonIdentities[buttonIdIndex].text;
             newButton.id = buttonIdentities[buttonIdIndex].id;
             buttonIdIndex ++;
-            buttonRow.appendChild(newButton);
-            console.log(buttonRow)
-            
+            buttonRow.appendChild(newButton);            
         }
 
     });
@@ -61,36 +68,92 @@ const buttonGen = (buttonCount, classType='calc-button') => {
 const init = () => {
     rowGen(5);
     buttonGen(4);
+    let num1 = 'empty';
+    let num2 = 'empty';
+    let operation = 'empty';
+    let total = 'empty';
 
     const calcButtons = document.querySelectorAll('.calc-button');
     const disp = document.querySelector('.num-disp');
 
+    // Clear Screen
+    const cls = (complete=0, display=1) => {
+
+        if (display) {
+            disp.textContent = '';
+        }
+
+        if (complete==1) {
+            num1 = 'empty';
+            num2 = 'empty';
+            operation = 'empty';
+        }
+
+    }
+
+    cls();    
+
     calcButtons.forEach((button) => {
         button.addEventListener('click', (e) => {
+            
             let currentButton = document.querySelector(`#${buttonIdentities.find((button) =>      button.id==e.target.id).id}`)
+
             console.log(currentButton.textContent)
 
+            // Check if number:
+            const isNumber = (testNum) => (Number(testNum)-9999999999) ?  true : false;
+            // Is screen clear
+            const screenClear = () => disp.textContent === ''? true : false;
+            // Is there a operator?
+            const operatorCheck = () => {
+                if (disp.textContent == '/' || disp.textContent == 'X' || disp.textContent == '-' || disp.textContent == '+') {return true}
+                return false; 
+            };
+            // Is currentbutton '='
+            const equals = () => currentButton.textContent == '='? true: false;
 
+            // Is current button an operator
+            const isOperator = () => {
+                if (currentButton.textContent == '/' || currentButton.textContent == 'X' || currentButton.textContent == '-' || currentButton.textContent == '+') {return true};
+                return false;
+            }
+
+            // Conditions to manipulate screen
+            if (currentButton.textContent == 'C') {cls(1); console.log(num1)} 
+            if (isNumber(currentButton.textContent) && isNumber(disp.textContent) &&!screenClear()) disp.textContent += currentButton.textContent;
+            if (screenClear() && isNumber(currentButton.textContent)) disp.textContent += currentButton.textContent;
+
+            if (!operatorCheck() && isOperator() && isNumber(disp.textContent) && !isNumber(num1)) {
+                num1 = disp.textContent;
+                operation = currentButton.textContent;
+                cls();
+
+                disp.textContent = currentButton.textContent;
+            }
+            if (operatorCheck() && isNumber(currentButton.textContent)) {
+                cls();
+                disp.textContent += currentButton.textContent;
+            }
+            
+            if (!operatorCheck() && !(num1 === 'empty') && equals()) {
+                num2 = disp.textContent;
+                cls();
+                total = Math.round(operationsObj[`${operation}`](Number(num1),Number(num2))*1000000000000)/1000000000000;
+
+                disp.textContent = total;
+                cls(1,0);
+
+            }
+
+            
         })
     })
 
 
-    disp.textContent = '';
-
-    // seven.addEventListener('click', e => {
-    //     e.preventDefault();
-    //     disp.textContent += '7'
-    // })
 
 
+    
 
-    // calcButtons.forEach((button) => {
-    //     button.addEventListener('click', e => {
-    //         e.preventDefault()
-    //         console.log(e)
-    //         console.log(e.target)
-    //     })
-    // })
 }
 
 init();
